@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="hr_release_view_form" model="ir.ui.view">
+        <field name="name">hr.release.form</field>
+        <field name="model">hr.release</field>
+        <field name="arch" type="xml">
+            <form string="Current Release">
+                <header>
+					<button name="action_confirm" states="new" string="Confirm" type="object" groups="hr.group_hr_manager"/>
+					<button name="action_reject" states="new" string="Reject" type="object" groups="hr.group_hr_manager"/>
+                    <button name="action_draft" states="cancel" string="Set to Draft" type="object" attrs="{'invisible': [('create_uid', '!=', 'employee_id.user_id.id')]}"/>
+					<button name="action_cancel" states="new" string="Cancel" type="object" attrs="{'invisible': [('create_uid', '!=', 'employee_id.user_id.id')]}"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title" name="title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Description"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+							<field name="reason" />
+							<field name="note" />
+							<field name="create_uid" invisible="1" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+	
+	<record id="hr_release_view_tree" model="ir.ui.view">
+        <field name="name">hr.release.tree</field>
+        <field name="model">hr.release</field>
+        <field name="arch" type="xml">
+            <tree string="Releases" decoration-bf="state == 'new'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="date"/>
+			    <field name="state"/>
+            </tree>
+        </field>
+    </record>
+	
+	<record id="action_hr_release" model="ir.actions.act_window">
+        <field name="name">Release</field>
+        <field name="res_model">hr.release</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('employee_id', '!=', False)]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to create a Release request.
+            </p>
+        </field>
+    </record>
+
+	<menuitem id="hr_menu_release" name="Release" action="action_hr_release" parent="hr.menu_hr_root" sequence="4" groups="base.group_user"/>
+	
+</odoo>
