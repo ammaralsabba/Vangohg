@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_view_form" model="ir.ui.view">
+        <field name="name">hr.contract.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_payroll.hr_contract_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='wage']" position="after">
+                <label for="holidays"/>
+                <div class="o_row">
+                    <field name="holidays" nolabel="1"/>
+                    <span>/ year</span>
+                </div>
+				<label for="airticket"/>
+                <div class="o_row">
+                    <field name="airticket" nolabel="1"/>
+                    <span>/ year</span>
+                </div>
+                <label for="mobile"/>
+                <div class="o_row">
+                    <field name="mobile" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="transport"/>
+                <div class="o_row">
+                    <field name="transport" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="house"/>
+                <div class="o_row">
+                    <field name="house" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="other_allowances"/>
+                <div class="o_row">
+                    <field name="other_allowances" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+                <label for="commission_amount"/>
+                <div class="o_row">
+                    <field name="commission_amount" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+                <label for="commission_percentage"/>
+                <div class="o_row">
+                    <field name="commission_percentage" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="gosi_employee"/>
+                <div class="o_row">
+                    <field name="gosi_employee" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="gosi_company"/>
+                <div class="o_row">
+                    <field name="gosi_company" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="lmra"/>
+                <div class="o_row">
+                    <field name="lmra" nolabel="1"/>
+                    <span>/ month</span>
+                </div>
+				<label for="indemnity"/>
+                <div class="o_row">
+                    <field name="indemnity" nolabel="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+        <record id="hr_employee_form__l10n_be_view_for" model="ir.ui.view">
+            <field name="name">hr.employee.inherit.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"/>
+            <field name="priority">30</field>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='marital']" position="after">
+                    <field name="disabled_spouse_bool" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" colspan="1"/>
+                </xpath>
+                <xpath expr="//field[@name='gender']" position="after">
+                    <field name="disabled"/>
+                </xpath>
+                <xpath expr="//field[@name='children']" position="after">
+                    <field name="disabled_children_bool"/>
+                    <field name="disabled_children_number" attrs="{'invisible':[('disabled_children_bool','!=',True)]}" colspan="1" help="number of dependent children declared as disabled"/>
+                    <field name="dependent_children" invisible="1"/>
+                    <field name="other_dependent_people" groups="hr.group_hr_user"/>
+                    <field name="other_senior_dependent" attrs="{'invisible':[('other_dependent_people','!=',True)]}"/>
+                    <field name="other_disabled_senior_dependent" attrs="{'invisible':[('other_dependent_people','!=',True)]}"/>
+                    <field name="other_juniors_dependent" attrs="{'invisible':[('other_dependent_people','!=',True)]}"/>
+                    <field name="other_disabled_juniors_dependent" attrs="{'invisible':[('other_dependent_people','!=',True)]}"/>
+                </xpath>
+            </field>
+        </record> 
+</odoo>

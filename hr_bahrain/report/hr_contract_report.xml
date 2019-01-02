@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_hr_contract_en">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">Employee Contract</h2>
+						<div>Reference No.: <span t-field="o.name" /></div>
+						<div t-if="o.company_id.company_registry">CR No.: <span t-field="o.company_id.company_registry" /></div>
+						<div>This letter was made on: <span t-field="o.create_date" /></div>
+						<br/>
+						<div class="text-center">Between</div>
+						<br/>
+						<div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div>A. FIRST PARTY (Employer)</div>
+									<div>Employer / legal Representative: <span t-field="o.company_id.name" /></div>
+									<div t-if="o.company_id.company_registry">CR No.: <span t-field="o.company_id.company_registry" /></div>
+								</div>
+								<div class="col-xs-6">
+									<div>B. SECOND PARTY (Employee)</div>
+									<div>Name: <span t-field="o.employee_id.name" /></div>
+									<div>Nationality : <span t-field="o.employee_id.country_id" /></div>
+									<div>Passport no. : <span t-field="o.employee_id.passport_id" /></div>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div>Now therefore the parties declared having full capacity to contract and mutually agreed as follows:</div>
+						<ol style="margin-left:20px">
+							<li>That the Second Party accepts to work for first party as a <span t-field="o.job_id" />  in the Kingdom of Bahrain for a basic monthly salary of:<br/>
+							<span t-field="o.wage" />  , <span t-esc="o.company_id.currency_id.amount_to_text(o.wage)" />.
+							</li>
+							<li>The duration of this Agreement shall be As from <span t-field="o.date_start" />  <span t-if="o.date_end">to <span t-field="o.date_end" /></span>
+								<ol style="margin-left:40px">
+									<li t-if="trial_date_end">The two parties hereto have agreed that the Second party shall be subject to a probation until <span t-field="o.trial_date_end" />.</li>
+									<li t-if="o.date_end">The limited employment agreement expires on the date of expiry thereof unless the two parties renew it for an extra period on the same terms and conditions.</li>
+								</ol>
+							</li>
+							<li>The First Party may terminate the services of Second Party immediately and without notice in case the Second Party violates clause 113 of the Labour Law No. (23) For the year 1976.</li>
+							<li>Termination notice: The first or the second party shall give the other party 30 days notice to terminate this agreement.</li>
+							<li>Other monthly allowances granted to the Second Party:
+								<ol style="margin-left:40px">
+									<li t-if="o.house">Accommodation: <span t-field="o.house" /></li>
+									<li t-if="o.transport">Transportation: <span t-field="o.transport" /></li>
+									<li t-if="o.mobile">Mobile: <span t-field="o.mobile" /></li>
+									<li t-if="o.other_allowances">Others: <span t-field="o.other_allowances" /></li>
+								</ol>
+								<div>Total monthly gross Salary with allowances:</div>
+								<div><span t-esc="o.wage + o.mobile + o.transport + o.house + o.other_allowances" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}' />  , <span t-esc="o.company_id.currency_id.amount_to_text(o.wage+o.mobile+o.transport+o.house+o.other_allowances)" />.</div>
+							</li>
+							<li>The second party (the employee) will be entitled for <span t-field="o.holidays" /> days of paid leave , to be taken every year as per the labour law.</li>
+							<li t-if="o.notes">7. Other Conditions:
+								<div t-field="o.notes" />
+							</li>
+						</ol>
+							<br /><br />
+						<div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div>First Party (The Employer)</div>
+									<div>Name:</div>
+									<div>Title:</div>
+									<div>Signature:</div>
+								</div>
+								<div class="col-xs-6">
+									<div>Second Party (The Employee)</div>
+									<div>Name:</div>
+									<div>Signature:</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_contract_en"
+        string="English Contract"
+        model="hr.contract"
+        report_type="qweb-pdf"
+        name="hr_bahrain.report_hr_contract_en"
+        file="hr_bahrain.report_hr_contract_en"
+        print_report_name="'Contract - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+	
+	<template id="report_hr_contract_ar">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+				<t t-set="o" t-value="o.with_context({'lang':'ar_SY'})" />
+                <t t-call="web.external_layout">
+                    <div class="page" style="direction:rtl">
+                        <h2 class="text-center">عقد الموظف</h2>
+						<div>رقم المرجع: <span t-field="o.name" /></div>
+						<div t-if="o.company_id.company_registry">رقم السجل: <span t-field="o.company_id.company_registry" /></div>
+						<div>هذه الرسالة كتبت في: <span t-field="o.create_date" /></div>
+						<br/>
+						<div class="text-center">بين</div>
+						<br/>
+						<div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div>أ. الطرف الأول (جهة العمل)</div>
+									<div>اسم الجهة: <span t-field="o.company_id.name" /></div>
+									<div t-if="o.company_id.company_registry">رقم السجل: <span t-field="o.company_id.company_registry" /></div>
+								</div>
+								<div class="col-xs-6">
+									<div>ب. الطرف الثاني (الموظف)</div>
+									<div>الاسم: <span t-field="o.employee_id.name" /></div>
+									<div>الجنسية: <span t-field="o.employee_id.country_id" /></div>
+									<div>رقم الجواز: <span t-field="o.employee_id.passport_id" /></div>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div>الآن، يمكن للأطراف التقاعد والتوقيع حسب الشروط التالية:</div>
+						<ol style="margin-right:20px">
+							<li>يقبل الطرف الثاني بالعمل لدى الطرف الأول بوظيفة <span t-field="o.job_id" />  في مملكة البحرين براتب شهري أساسي:<br/>
+							<span t-field="o.wage" />  ، <span t-esc="o.company_id.currency_id.amount_to_text(o.wage)" />.
+							</li>
+							<li>يكون العقد ساري من تاريخ <span t-field="o.date_start" />  <span t-if="o.date_end">حتى <span t-field="o.date_end" /></span>
+								<ol style="margin-right:40px">
+									<li t-if="trial_date_end">اتفق الطرفان على أن الطرف الثاني يخضع للتدريب حتى <span t-field="o.trial_date_end" />.</li>
+									<li t-if="o.date_end">تنتهي صلاحية عقد العمل المحدود في تاريخ انتهاء صلاحيته ما لم يقم الطرفان بتجديده لمدة إضافية على نفس الشروط والأحكام.</li>
+								</ol>
+							</li>
+							<li>يجوز للطرف الأول إنهاء خدمات الطرف الثاني فوراً ودون سابق إنذار في حالة مخالفة الطرف الثاني للمادة 113 من قانون العمل رقم (23) لسنة 1976.</li>
+							<li>إشعار الإنهاء: يجب على الطرف الأول أو الطرف الثاني إعطاء الطرف الآخر إشعارًا مدته 30 يومًا لإنهاء هذه الاتفاقية.</li>
+							<li>بدلات شهرية أخرى تمنح للطرف الثاني:
+								<ol style="margin-right:40px">
+									<li t-if="o.house">السكن: <span t-field="o.house" /></li>
+									<li t-if="o.transport">المواصلات: <span t-field="o.transport" /></li>
+									<li t-if="o.mobile">اتصالات: <span t-field="o.mobile" /></li>
+									<li t-if="o.other_allowances">أخرى: <span t-field="o.other_allowances" /></li>
+								</ol>
+								<div>مجموع الراتب الإجمالي الشهري مع البدلات:</div>
+								<div><span t-esc="o.wage + o.mobile + o.transport + o.house + o.other_allowances" t-options='{"widget": "monetary", "display_currency": o.company_id.currency_id}' />  , <span t-esc="o.company_id.currency_id.amount_to_text(o.wage+o.mobile+o.transport+o.house+o.other_allowances)" />.</div>
+							</li>
+							<li>يستحق الطرف الثاني <span t-field="o.holidays" /> يوما مدفوعة الأجرة، ليتم اتخاذها كل عام وفقا لقانون العمل.</li>
+							<li t-if="o.notes">7. شروط أخرى:
+								<div t-field="o.notes" />
+							</li>
+						</ol>
+							<br /><br />
+						<div>
+							<div class="row">
+								<div class="col-xs-6">
+									<div>الطرف الأول</div>
+									<div>الاسم:</div>
+									<div>المسمى الوظيفي:</div>
+									<div>التوقيع:</div>
+								</div>
+								<div class="col-xs-6">
+									<div>الطرف الثاني</div>
+									<div>الاسم:</div>
+									<div>التوقيع:</div>
+								</div>
+							</div>
+						</div>
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_contract_ar"
+        string="Arabic Contract"
+        model="hr.contract"
+        report_type="qweb-pdf"
+        name="hr_bahrain.report_hr_contract_ar"
+        file="hr_bahrain.report_hr_contract_ar"
+        print_report_name="'Contract - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+
+</odoo>
