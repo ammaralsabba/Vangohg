@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_hr_loan_en">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+						<div>Date: <span t-field="o.date" /></div>
+						<br/><br/>
+						<div class="text-center"><b>Request for loan to be repaid from my salary</b></div>
+						<br/><br/>
+						<div><address t-field="o.employee_id" t-options='{"fields": ["address", "name"], "no_marker": True}' /></div>
+						<br/><br/>
+						<div>Dear <span t-field="o.employee_id.parent_id.name" /></div>
+						<br/><br/>
+						<div>This is a formal request for a loan of <span t-field="o.amount" /> to be repaid with a deduction from my salary each month.</div>
+						<br/><br/>
+						<div>The loan will be repaid with installments <span t-field="o.installment" /> that can be deducted from my salary every month until the loan is repaid.</div>
+						<br/><br/>
+						<div>Thank you for considering my situation.</div>
+						<br/><br/>
+						<div>Yours sincerely,</div>
+						<div t-field="o.employee_id.name" />
+						<div t-field="o.employee_id.job_id.name" />
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_loan_en"
+        string="English Loan"
+        model="hr.loan"
+        report_type="qweb-pdf"
+        name="hr_loan.report_hr_loan_en"
+        file="hr_loan.report_hr_loan_en"
+        print_report_name="'Loan - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+	
+	<template id="report_hr_loan_ar">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+				<t t-set="o" t-value="o.with_context({'lang':'ar_SY'})" />
+                <t t-call="web.external_layout">
+                    <div class="page" style="direction:rtl">
+						<div>التاريخ: <span t-field="o.date" /></div>
+						<br/><br/>
+						<div class="text-center"><b>طلب سداد القرض من راتبي</b></div>
+						<br/><br/>
+						<div><address t-field="o.employee_id" t-options='{"fields": ["address", "name"], "no_marker": True}' /></div>
+						<br/><br/>
+						<div>إلى <span t-field="o.employee_id.parent_id.name" /></div>
+						<br/><br/>
+						<div>هذه الرسالة هي طلب رسمي للحصول على قرض بمبلغ وقدره <span t-field="o.amount" /> ليتم سداده عبر استقطاع شهري من راتبي مباشرة.</div>
+						<br/><br/>
+						<div>سأقوم بتسديد القرض بقسط شهري وقدره <span t-field="o.installment" /> ليتم استقطاعه من راتبي حتى سداد القرض.</div>
+						<br/><br/>
+						<div>شكراً لتفهمكم لحاجتي للقرض.</div>
+						<br/><br/>
+						<div>مع خالص شكري وتقديري،</div>
+						<div t-field="o.employee_id.name" />
+						<div t-field="o.employee_id.job_id.name" />
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_loan_ar"
+        string="Arabic Loan"
+        model="hr.loan"
+        report_type="qweb-pdf"
+        name="hr_loan.report_hr_loan_ar"
+        file="hr_loan.report_hr_loan_ar"
+        print_report_name="'Loan - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+
+</odoo>
