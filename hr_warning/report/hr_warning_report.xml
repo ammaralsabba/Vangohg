@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_hr_warning_en">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+						<div>Date: <span t-field="o.date" /></div>
+						<div><b>Private and Confidential</b></div>
+						<div><address t-field="o.employee_id" t-options='{"fields": ["address", "name"], "no_marker": True}' /></div>
+						<br/><br/>
+						<div>Dear <span t-field="o.employee_id.name" /></div>
+						<br/><br/>
+						<div class="text-center">Warning Letter</div>
+						<br/><br/>
+						<div>I am writing to you about your performance during your employment with <span t-field="o.company_id.name" />.</div>
+						<br/><br/>
+						<div>At this meeting you were advised that your performance has been unsatisfactory, and that immediate improvement is required.</div>
+						<br/><br/>
+						<div>In the meeting you were asked if you had anything you wished to say or to respond to the situation.</div>
+						<br/><br/>
+						<div>After considering the situation it is expected that your performance improves.</div>
+						<br/><br/>
+						<div>This is your warning letter. Your employment may be terminated if your performance does not improve.</div>
+						<br/><br/>
+						<div>Yours sincerely,</div>
+						<div t-field="o.employee_id.parent_id.name" />
+						<div t-field="o.employee_id.parent_id.job_id.name" />
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_warning_en"
+        string="English Warning"
+        model="hr.warning"
+        report_type="qweb-pdf"
+        name="hr_warning.report_hr_warning_en"
+        file="hr_warning.report_hr_warning_en"
+        print_report_name="'Warning - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+	
+	<template id="report_hr_warning_ar">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+				<t t-set="o" t-value="o.with_context({'lang':'ar_SY'})" />
+                <t t-call="web.external_layout">
+                    <div class="page" style="direction:rtl">
+						<div>التاريخ: <span t-field="o.date" /></div>
+						<div><b>خاص وسري</b></div>
+						<div><address t-field="o.employee_id" t-options='{"fields": ["address", "name"], "no_marker": True}' /></div>
+						<br/><br/>
+						<div>إلى <span t-field="o.employee_id.name" /></div>
+						<br/><br/>
+						<div class="text-center">إنذار كتابي</div>
+						<br/><br/>
+						<div>أكتب إليك هذه الرسالة حول أدائك بالعمل لدى شركة <span t-field="o.company_id.name" />.</div>
+						<br/><br/>
+						<div>في هذا الاجتماع ، تم إبلاغك بأن أدائك لم يكن مرضياً ، وأنه يلزم إجراء تحسين فوري.</div>
+						<br/><br/>
+						<div>في الاجتماع سئلت عما إذا كان لديك أي شيء كنت ترغب في قوله أو الرد على الوضع.</div>
+						<br/><br/>
+						<div>بعد النظر في الوضع ، من المتوقع أن يتحسن أدائك.</div>
+						<br/><br/>
+						<div>هذه الرسالة إنذار كتابي. وقد يتم إنهاء عملك إذا لم يتحسن أدائك.</div>
+						<br/><br/>
+						<div>تفضلوا بقبول فائق الاحترام،</div>
+						<div t-field="o.employee_id.parent_id.name" />
+						<div t-field="o.employee_id.parent_id.job_id.name" />
+					</div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <report
+        id="action_report_hr_warning_ar"
+        string="Arabic Warning"
+        model="hr.warning"
+        report_type="qweb-pdf"
+        name="hr_warning.report_hr_warning_ar"
+        file="hr_warning.report_hr_warning_ar"
+        print_report_name="'Warning - %s - %s' % (object.employee_id.name, (object.name).replace('/', ''))"
+    />
+
+</odoo>
