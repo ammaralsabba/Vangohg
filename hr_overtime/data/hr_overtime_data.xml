@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="hr_rule_overtime" model="hr.salary.rule">
+            <field name="name">Overtime</field>
+            <field name="sequence" eval="10"/>
+            <field name="code">OV</field>
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+hours=employee.get_worked_hours(payslip.contract_id,payslip.date_from,payslip.date_to)
+rest_rate=employee.get_rest_rate(payslip.contract_id)
+holiday_rate=employee.get_holiday_rate(payslip.contract_id)
+wage=contract.wage/hours
+rest=0
+holiday=0
+if worked_days.Rests:rest+=worked_days.Rests.number_of_hours *rest_rate
+if worked_days.Holidays:holiday+=worked_days.Holidays.number_of_hours *holiday_rate
+result =(rest+holiday)*wage
+            </field>
+        </record>
+        
+        <record id="hr_rule_absent" model="hr.salary.rule">
+            <field name="name">Absent</field>
+            <field name="sequence" eval="101"/>
+            <field name="code">AB</field>
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+hours=employee.get_worked_hours(payslip.contract_id,payslip.date_from,payslip.date_to)
+wage=contract.wage/hours
+absent=0
+if worked_days.Absents: absent+=worked_days.Absents.number_of_hours or 0.0
+if worked_days.Lates: absent+=worked_days.Lates.number_of_hours or 0.0
+if worked_days.Earlys: absent+=worked_days.Earlys.number_of_hours or 0.0
+result =absent*wage*-1
+            </field>
+        </record>
+
+
+        <!-- Salary Structure -->
+
+         <record id="structure_overtime" model="hr.payroll.structure">
+            <field name="code">OVERTIME</field>
+            <field name="name">Base for overtime structures</field>
+            <field eval="[(6, 0, [ref('hr_payroll.hr_rule_basic'), ref('hr_rule_overtime'), ref('hr_payroll.hr_rule_taxable'), ref('hr_rule_absent'),ref('hr_payroll.hr_rule_net')])]" name="rule_ids"/>
+            <field name="company_id" ref="base.main_company"/>
+        </record>
+
+
+    </data>
+</openerp>

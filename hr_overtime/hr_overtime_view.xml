@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+       
+        <record id="hr_contract_view_form" model="ir.ui.view">
+            <field name="name">hr.contract.form.inherit</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='schedule_pay']" position="after">
+                        <field name="policy_id"/>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        
+        <record id="policy_line_tree_view" model="ir.ui.view">
+            <field name="name">hr.policy.line.tree</field>
+            <field name="model">hr.policy.line</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Lines">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="rate"/>
+                    <field name="active_after"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="policy_line_form_view" model="ir.ui.view">
+            <field name="name">hr.policy.line.form</field>
+            <field name="model">hr.policy.line</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Policy">
+                    <sheet>
+                        <h1>
+                            <label for="name" string="Name" class="oe_edit_only"/>
+                            <field name="name"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="type"/>
+                                <field name="active_after"/>
+                                <field name="rate"/>
+                            </group>
+                            <group>
+                                <field name="starttime" widget="float_time"/>
+								<field name="endtime" widget="float_time"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <!-- Overtime Policy -->
+        <record id="policy_view_tree" model="ir.ui.view">
+            <field name="name">hr.policy.tree</field>
+            <field name="model">hr.policy</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Policies">
+                    <field name="name"/>
+                    <field name="sign_in"/>
+                    <field name="sign_out"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="policy_view_form" model="ir.ui.view">
+            <field name="name">hr.policy.form</field>
+            <field name="model">hr.policy</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Policy">
+                    <sheet>
+                    	<group>
+                        <field name="name"/>
+                        <field name="sign_in"/>
+                        <field name="sign_out"/>
+                        </group>
+                        <group string="Overtime Lines">
+                            <field name="line_ids" nolabel="1" editable="bottom"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>
